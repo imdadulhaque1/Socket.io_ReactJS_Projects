@@ -2,14 +2,21 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const expressServer = http.createServer(app); //Create Express Server
-
 // ---------> ConnectedConfigure Socket.io with express server
 const {Server} = require('socket.io');
 const io = new Server(expressServer);
 
+const path = require('path');
 
-app.get("/express-server", function(req, res){
-    res.end("This is from Backend!")
+app.use(express.static('client_app/build'));
+
+
+
+
+
+
+app.get("*", function(req, res){        // * means all path supports
+    res.sendFile(path.resolve(__dirname, 'client-app', 'build', 'index.html'))
 })
 
 
